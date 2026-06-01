@@ -124,23 +124,9 @@ const marqueeItems = [
 function RunningSquirrel() {
   return (
     <div className="relative w-full overflow-hidden h-12 my-6">
-      <motion.div
-        animate={{
-          x: ["-10%", "20%", "20%", "55%", "55%", "80%", "80%", "115%"],
-          y: [0, -14, 0, 0, -14, 0, -14, 0, 0, -14, 0, 0, -14, 0, 0],
-          rotate: [0, -5, 5, 12, -12, 12, 0, -5, 5, -5, 10, -10, 0, 0, 0],
-        }}
-        transition={{
-          duration: 11,
-          repeat: Infinity,
-          ease: "easeInOut",
-          repeatDelay: 5,
-        }}
-        className="absolute top-1 text-3xl select-none"
-        style={{ scaleX: -1, willChange: "transform" }}
-      >
+      <div className="absolute top-1 text-3xl select-none left-0 animate-running-squirrel" style={{ transform: "scaleX(-1)", willChange: "transform" }}>
         🐿️
-      </motion.div>
+      </div>
     </div>
   );
 }
