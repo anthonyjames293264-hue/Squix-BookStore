@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Star,
   ArrowRight,
@@ -27,54 +27,54 @@ interface FeaturedBook {
 }
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (delay: number = 0) => ({
+  hidden: { opacity: 0, y: 25 },
+  visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: "easeOut" as const, delay },
-  }),
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
 };
 
 const fadeIn = {
   hidden: { opacity: 0 },
-  visible: (delay: number = 0) => ({
+  visible: {
     opacity: 1,
-    transition: { duration: 0.8, ease: "easeOut" as const, delay },
-  }),
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
 };
 
 const staggerContainer = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.15 },
+    transition: { staggerChildren: 0.12 },
   },
 };
 
 const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: (delay: number = 0) => ({
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.6, ease: "easeOut" as const, delay },
-  }),
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
 };
 
 const slideInLeft = {
-  hidden: { opacity: 0, x: -60 },
-  visible: (delay: number = 0) => ({
+  hidden: { opacity: 0, x: -25 },
+  visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.8, ease: "easeOut" as const, delay },
-  }),
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
 };
 
 const slideInRight = {
-  hidden: { opacity: 0, x: 60 },
-  visible: (delay: number = 0) => ({
+  hidden: { opacity: 0, x: 25 },
+  visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.8, ease: "easeOut" as const, delay },
-  }),
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
 };
 
 const testimonials = [
@@ -123,31 +123,23 @@ const marqueeItems = [
 
 function RunningSquirrel() {
   return (
-    <div className="relative w-full overflow-hidden h-10 my-6">
+    <div className="relative w-full overflow-hidden h-12 my-6">
       <motion.div
-        animate={{ x: ["calc(-10vw)", "calc(110vw)"] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
-        className="absolute top-0 text-3xl"
-        style={{ scaleX: -1 }}
+        animate={{
+          x: ["-10%", "20%", "20%", "55%", "55%", "80%", "80%", "115%"],
+          y: [0, -14, 0, 0, -14, 0, -14, 0, 0, -14, 0, 0, -14, 0, 0],
+          rotate: [0, -5, 5, 12, -12, 12, 0, -5, 5, -5, 10, -10, 0, 0, 0],
+        }}
+        transition={{
+          duration: 11,
+          repeat: Infinity,
+          ease: "easeInOut",
+          repeatDelay: 5,
+        }}
+        className="absolute top-1 text-3xl select-none"
+        style={{ scaleX: -1, willChange: "transform" }}
       >
-        <motion.span
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 0.3, repeat: Infinity }}
-          className="inline-block"
-        >
-          🐿️
-        </motion.span>
-        {[1, 2, 3].map((i) => (
-          <motion.span
-            key={i}
-            className="absolute text-xs opacity-30"
-            style={{ left: -15 * i, top: 12 }}
-            animate={{ opacity: [0.3, 0] }}
-            transition={{ duration: 0.5, delay: i * 0.1, repeat: Infinity }}
-          >
-            🐾
-          </motion.span>
-        ))}
+        🐿️
       </motion.div>
     </div>
   );
@@ -156,10 +148,6 @@ function RunningSquirrel() {
 export default function HomePage({ featuredBooks = [] }: { featuredBooks?: FeaturedBook[] }) {
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
-  const { scrollYProgress } = useScroll();
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95]);
-  const heroY = useTransform(scrollYProgress, [0, 0.15], [0, 50]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
@@ -181,12 +169,12 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
       {/*  HERO                                                              */}
       {/* ================================================================== */}
       <section className="relative flex min-h-[70vh] md:min-h-[85vh] flex-col items-center justify-center overflow-hidden px-4 sm:px-6 py-12 aurora-bg">
-        <FloatingParticles count={10} speed={0.4} />
+        <FloatingParticles count={5} speed={0.3} />
 
-        {/* Decorative orbs */}
+        {/* Decorative orbs — slow drifting floating orbs */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-amber-500/[0.04] rounded-full blur-[100px] animate-float" />
-          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-amber-600/[0.03] rounded-full blur-[80px] animate-float-delayed" />
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-amber-500/[0.05] rounded-full animate-float-orb-1" style={{ filter: 'blur(40px)', willChange: 'transform' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-amber-600/[0.04] rounded-full animate-float-orb-2" style={{ filter: 'blur(30px)', willChange: 'transform' }} />
         </div>
 
         {/* Dot grid */}
@@ -197,7 +185,7 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
+
         >
           <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12">
             {/* Left — Text + CTAs */}
@@ -278,21 +266,13 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
             {/* Right — Book visual (hidden on mobile) */}
             <motion.div
               variants={scaleIn}
-              custom={0.2}
               className="hidden lg:flex justify-center"
             >
-              <div className="relative">
-                <motion.div
+              <div className="relative animate-float" style={{ willChange: "transform" }}>
+                <div
                   aria-hidden
-                  animate={{
-                    boxShadow: [
-                      "0 0 40px rgba(245,158,11,0.06), 0 0 80px rgba(245,158,11,0.03)",
-                      "0 0 60px rgba(245,158,11,0.12), 0 0 120px rgba(245,158,11,0.05)",
-                      "0 0 40px rgba(245,158,11,0.06), 0 0 80px rgba(245,158,11,0.03)",
-                    ]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
                   className="absolute -inset-4 rounded-2xl"
+                  style={{ boxShadow: '0 0 40px rgba(245,158,11,0.08), 0 0 80px rgba(245,158,11,0.04)' }}
                 />
 
                 <motion.div
@@ -320,21 +300,8 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
                 </motion.div>
 
                 {/* Small squirrel accent */}
-                <motion.div
-                  animate={{ y: [0, -6, 0], rotate: [0, -3, 3, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-5 -right-5 text-3xl"
-                >
-                  🐿️
-                </motion.div>
-
-                <motion.span
-                  animate={{ y: [0, -4, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-                  className="absolute -bottom-3 -left-4 text-lg opacity-30"
-                >
-                  🌰
-                </motion.span>
+                <div className="absolute -top-5 -right-5 text-3xl">🐿️</div>
+                <span className="absolute -bottom-3 -left-4 text-lg opacity-20">🌰</span>
               </div>
             </motion.div>
           </div>
@@ -390,17 +357,10 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
                   <motion.div variants={slideInLeft} custom={0} className="flex justify-center lg:justify-end">
                     <ParallaxSection speed={0.15}>
                       <Link href={`/store/${featuredBooks[0].slug}`} className="group relative block">
-                        <motion.div
+                        <div
                           aria-hidden
-                          animate={{
-                            boxShadow: [
-                              "0 0 40px rgba(245,158,11,0.1), 0 0 80px rgba(245,158,11,0.05)",
-                              "0 0 60px rgba(245,158,11,0.2), 0 0 120px rgba(245,158,11,0.08)",
-                              "0 0 40px rgba(245,158,11,0.1), 0 0 80px rgba(245,158,11,0.05)",
-                            ]
-                          }}
-                          transition={{ duration: 3, repeat: Infinity }}
                           className="absolute -inset-4 rounded-2xl"
+                          style={{ boxShadow: '0 0 40px rgba(245,158,11,0.1), 0 0 80px rgba(245,158,11,0.05)' }}
                         />
                         <motion.div
                           whileHover={{ scale: 1.02 }}
@@ -534,7 +494,7 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
       <section className="relative bg-page py-16 sm:py-24 overflow-hidden">
         {/* Background accent */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/[0.02] rounded-full blur-[150px]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/[0.02] rounded-full" style={{ filter: 'blur(60px)' }} />
         </div>
 
         <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
@@ -596,56 +556,35 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
               custom={0.2}
               className="order-1 flex justify-center lg:order-2 lg:justify-start"
             >
-              <ParallaxSection speed={0.2}>
-                <motion.div
-                  whileHover={{ scale: 1.02, rotate: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative aspect-[3/4] w-64 overflow-hidden rounded-2xl bg-surface shadow-2xl ring-1 ring-white/10 sm:w-72 md:w-80"
-                >
-                  <div className="flex h-full flex-col items-center justify-center">
-                    <motion.div
-                      animate={{
-                        y: [0, -8, 0],
-                        rotate: [0, 3, -3, 0],
-                      }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                      className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-amber-500/30 bg-surface pulse-ring"
-                    >
-                      <span className="text-4xl">🐿️</span>
-                    </motion.div>
-                    <p className="mt-4 text-sm text-fg-2 font-medium">Trichia Raj, Amir & Squix</p>
-
-                    {["🌰", "🥜", "🍂"].map((emoji, i) => (
-                      <motion.span
-                        key={i}
-                        className="absolute text-lg opacity-20"
-                        style={{
-                          top: `${20 + i * 25}%`,
-                          left: `${10 + i * 30}%`,
-                        }}
-                        animate={{
-                          y: [0, -10, 0],
-                          rotate: [0, 180, 360],
-                          opacity: [0.1, 0.3, 0.1],
-                        }}
-                        transition={{
-                          duration: 4 + i,
-                          repeat: Infinity,
-                          delay: i * 0.5,
-                        }}
-                      >
-                        {emoji}
-                      </motion.span>
-                    ))}
+              <div
+                className="relative aspect-[3/4] w-64 overflow-hidden rounded-2xl bg-surface shadow-2xl ring-1 ring-white/10 sm:w-72 md:w-80"
+              >
+                <div className="flex h-full flex-col items-center justify-center">
+                  <div
+                    className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-amber-500/30 bg-surface pulse-ring"
+                  >
+                    <span className="text-4xl">🐿️</span>
                   </div>
-                  <motion.div
-                    aria-hidden
-                    animate={{ opacity: [0.3, 0.8, 0.3] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    className="absolute bottom-0 right-0 h-20 w-20 border-b-2 border-r-2 border-amber-500/30"
-                  />
-                </motion.div>
-              </ParallaxSection>
+                  <p className="mt-4 text-sm text-fg-2 font-medium">Trichia Raj, Amir & Squix</p>
+
+                  {["🌰", "🥜", "🍂"].map((emoji, i) => (
+                    <span
+                      key={i}
+                      className="absolute text-lg opacity-15"
+                      style={{
+                        top: `${20 + i * 25}%`,
+                        left: `${10 + i * 30}%`,
+                      }}
+                    >
+                      {emoji}
+                    </span>
+                  ))}
+                </div>
+                <div
+                  aria-hidden
+                  className="absolute bottom-0 right-0 h-20 w-20 border-b-2 border-r-2 border-amber-500/20"
+                />
+              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -659,7 +598,7 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
       {/* ================================================================== */}
       <section className="relative border-t border-edge-2 bg-surface py-16 sm:py-24 overflow-hidden noise-overlay">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/[0.03] rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/[0.03] rounded-full" style={{ filter: 'blur(60px)' }} />
         </div>
 
         <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
@@ -771,7 +710,7 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
       {/* ================================================================== */}
       <section className="relative border-t border-edge-2 bg-surface py-16 sm:py-20 overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/[0.03] rounded-full blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/[0.03] rounded-full" style={{ filter: 'blur(50px)' }} />
         </div>
 
         <div className="mx-auto max-w-7xl px-6 text-center lg:px-8 relative z-10">

@@ -569,7 +569,37 @@ export default function BookDetail({ book, relatedBooks }: BookDetailProps) {
 
               {/* Purchase section — hidden for admin */}
               {!isAdmin && (
-                <>
+                <div className="space-y-6">
+                  {/* Format selection */}
+                  {formatOptions.length > 1 && (
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-fg-2">
+                        Select Format
+                      </p>
+                      <div className="flex gap-3">
+                        {formatOptions.map((fmt) => (
+                          <button
+                            key={fmt}
+                            onClick={() => setSelectedFormat(fmt)}
+                            className={cn(
+                              "flex items-center gap-2 rounded-lg border px-5 py-3 text-sm font-medium transition-all duration-200",
+                              selectedFormat === fmt
+                                ? "border-amber-500 bg-amber-500/10 text-amber-500"
+                                : "border-edge text-fg-2 hover:border-fg-3 hover:text-fg"
+                            )}
+                          >
+                            {fmt === "physical" ? (
+                              <BookOpen className="h-4 w-4" />
+                            ) : (
+                              <Download className="h-4 w-4" />
+                            )}
+                            {fmt === "physical" ? "Hardcover" : "E-Book"}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {existingDownload && selectedFormat === "digital" ? (
                     /* Already purchased — show download */
                     <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-5 space-y-3">
@@ -602,37 +632,7 @@ export default function BookDetail({ book, relatedBooks }: BookDetailProps) {
                       </Button>
                     </div>
                   ) : (
-                    <>
-                      {/* Format selection */}
-                      {formatOptions.length > 1 && (
-                        <div className="space-y-3">
-                          <p className="text-sm font-medium text-fg-2">
-                            Select Format
-                          </p>
-                          <div className="flex gap-3">
-                            {formatOptions.map((fmt) => (
-                              <button
-                                key={fmt}
-                                onClick={() => setSelectedFormat(fmt)}
-                                className={cn(
-                                  "flex items-center gap-2 rounded-lg border px-5 py-3 text-sm font-medium transition-all duration-200",
-                                  selectedFormat === fmt
-                                    ? "border-amber-500 bg-amber-500/10 text-amber-500"
-                                    : "border-edge text-fg-2 hover:border-fg-3 hover:text-fg"
-                                )}
-                              >
-                                {fmt === "physical" ? (
-                                  <BookOpen className="h-4 w-4" />
-                                ) : (
-                                  <Download className="h-4 w-4" />
-                                )}
-                                {fmt === "physical" ? "Hardcover" : "E-Book"}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
+                    <div className="space-y-4">
                       {/* Purchase buttons */}
                       <div className="flex gap-3 pt-2">
                         <Button
@@ -671,14 +671,14 @@ export default function BookDetail({ book, relatedBooks }: BookDetailProps) {
                         </p>
                       )}
 
-                  {checkoutError && (
-                    <p className="text-xs text-red-400 text-center bg-red-500/10 border border-red-500/20 rounded-lg p-3">
-                      {checkoutError}
-                    </p>
+                      {checkoutError && (
+                        <p className="text-xs text-red-400 text-center bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+                          {checkoutError}
+                        </p>
+                      )}
+                    </div>
                   )}
-                    </>
-                  )}
-                </>
+                </div>
               )}
 
               {/* Physical book inquiry modal */}

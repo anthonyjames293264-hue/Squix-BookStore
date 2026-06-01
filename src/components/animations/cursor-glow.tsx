@@ -38,7 +38,7 @@ export function CursorGlow() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed z-[9999] h-[400px] w-[400px] rounded-full"
+      className="pointer-events-none fixed z-[9999] h-[250px] w-[250px] rounded-full"
       style={{
         x: springX,
         y: springY,

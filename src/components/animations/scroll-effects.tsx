@@ -11,7 +11,7 @@ interface ParallaxSectionProps {
 
 export function ParallaxSection({
   children,
-  speed = 0.3,
+  speed = 0.15,
   className,
 }: ParallaxSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -20,12 +20,16 @@ export function ParallaxSection({
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [80 * speed, -80 * speed]);
+  const y = useTransform(scrollYProgress, [0, 1], [`-${speed * 100}%`, `${speed * 100}%`]);
 
   return (
-    <div ref={ref} className={className}>
-      <motion.div style={{ y }}>{children}</motion.div>
-    </div>
+    <motion.div
+      ref={ref}
+      style={{ y, willChange: "transform" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
   );
 }
 
@@ -80,8 +84,8 @@ export function TextReveal({ text, className, delay = 0 }: TextRevealProps) {
         <motion.span
           key={i}
           className="inline-block mr-[0.25em]"
-          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{
             duration: 0.5,
