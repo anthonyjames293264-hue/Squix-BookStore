@@ -286,7 +286,7 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
                 </motion.div>
 
                 {/* Small squirrel accent */}
-                <div className="absolute -top-5 -right-5 text-3xl">🐿️</div>
+                <div className="absolute -top-5 -right-5 text-3xl animate-squirrel-hop">🐿️</div>
                 <span className="absolute -bottom-3 -left-4 text-lg opacity-20">🌰</span>
               </div>
             </motion.div>
@@ -549,7 +549,7 @@ export default function HomePage({ featuredBooks = [] }: { featuredBooks?: Featu
                   <div
                     className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-amber-500/30 bg-surface pulse-ring"
                   >
-                    <span className="text-4xl">🐿️</span>
+                    <span className="text-4xl animate-squirrel-hop">🐿️</span>
                   </div>
                   <p className="mt-4 text-sm text-fg-2 font-medium">Trichia Raj, Amir & Squix</p>
 
